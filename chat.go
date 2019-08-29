@@ -1,14 +1,10 @@
 package server
 
-import (
-	"time"
-)
-
 type Chat struct {
 	ID        int64
 	Name      string
 	Users     []User
-	CreatedAt time.Time
+	CreatedAt string
 }
 
 type ChatService interface {

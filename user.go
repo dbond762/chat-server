@@ -1,13 +1,9 @@
 package server
 
-import (
-	"time"
-)
-
 type User struct {
 	ID        int64
 	Username  string
-	CreatedAt time.Time
+	CreatedAt string
 }
 
 type UserService interface {

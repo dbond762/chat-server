@@ -30,6 +30,7 @@ func Setup(userHandler *UserHandler, chatHandler *ChatHandler, messageHandler *M
 	r.Post("/users/add", userHandler.Add)
 
 	r.Post("/chats/add", chatHandler.Add)
+	r.Post("/chats/get", userHandler.Chats)
 
 	r.Post("/messages/add", messageHandler.Add)
 
