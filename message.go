@@ -11,3 +11,7 @@ type Message struct {
 	Text      string
 	CreatedAt time.Time
 }
+
+type MessageService interface {
+	Add(chat int64, author int64, text string) (int64, error)
+}

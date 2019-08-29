@@ -21,10 +21,12 @@ func main() {
 
 	us := &mysql.UserService{DB: db}
 	cs := &mysql.ChatService{DB: db}
+	ms := &mysql.MessageService{DB: db}
 
 	uh := &http.UserHandler{UserService: us}
 	ch := &http.ChatHandler{ChatService: cs}
+	mh := &http.MessageHandler{MessageService: ms}
 
 	const port = 9000
-	http.Setup(uh, ch, port)
+	http.Setup(uh, ch, mh, port)
 }

@@ -28,10 +28,6 @@ func (us *UserService) Add(username string) (int64, error) {
 	return lastID, nil
 }
 
-func (us *UserService) Send(chat int64, author int64, text string) (int64, error) {
-	return 0, nil
-}
-
 func (us *UserService) Chats(id int64) ([]server.Chat, error) {
 	return []server.Chat{}, nil
 }
