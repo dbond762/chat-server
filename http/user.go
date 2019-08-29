@@ -49,7 +49,6 @@ type ChatItem struct {
 }
 
 // todo add users
-// todo add sort
 type UserChatsResponse struct {
 	Chats []ChatItem `json:"chats"`
 }

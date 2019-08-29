@@ -30,7 +30,7 @@ func (us *UserService) Add(username string) (int64, error) {
 
 func (us *UserService) Chats(id int64) ([]server.Chat, error) {
 	rows, err := us.DB.Query(
-		"SELECT `chat`.`id`, `chat`.`name`, `chat`.`created_at` FROM `chat` LEFT JOIN `user_chat` ON `chat`.`id` = `user_chat`.`chat_id` WHERE `user_chat`.`user_id` = ?",
+		"SELECT `chat`.`id`, `chat`.`name`, `chat`.`created_at` FROM `chat` LEFT JOIN `user_chat` ON `chat`.`id` = `user_chat`.`chat_id` WHERE `user_chat`.`user_id` = ? ORDER BY `chat`.`created_at` DESC",
 		id,
 	)
 	if err != nil {
