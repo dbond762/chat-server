@@ -10,7 +10,7 @@ import (
 	"github.com/go-chi/cors"
 )
 
-func Setup(userHandler *UserHandler, port int) {
+func Setup(userHandler *UserHandler, chatHandler *ChatHandler, port int) {
 	r := chi.NewRouter()
 
 	CORS := cors.New(cors.Options{
@@ -28,6 +28,8 @@ func Setup(userHandler *UserHandler, port int) {
 	r.Use(middleware.Recoverer)
 
 	r.Post("/users/add", userHandler.Add)
+
+	r.Post("/chats/add", chatHandler.Add)
 
 	log.Printf("Server run on http://localhost:%d", port)
 	if err := http.ListenAndServe(fmt.Sprintf(":%d", port), r); err != nil {

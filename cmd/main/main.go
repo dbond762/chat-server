@@ -20,9 +20,11 @@ func main() {
 	defer db.Close()
 
 	us := &mysql.UserService{DB: db}
+	cs := &mysql.ChatService{DB: db}
 
 	uh := &http.UserHandler{UserService: us}
+	ch := &http.ChatHandler{ChatService: cs}
 
 	const port = 9000
-	http.Setup(uh, port)
+	http.Setup(uh, ch, port)
 }
