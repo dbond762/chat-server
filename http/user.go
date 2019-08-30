@@ -42,13 +42,19 @@ type UserChatsRequest struct {
 	User int64 `json:"user"`
 }
 
-type ChatItem struct {
+type UserItem struct {
 	ID        int64  `json:"id"`
-	Name      string `json:"name"`
-	CreatedAt string `jsog:"created_at"`
+	Username  string `json:"username"`
+	CreatedAt string `json:"created_at"`
 }
 
-// todo add users
+type ChatItem struct {
+	ID        int64      `json:"id"`
+	Name      string     `json:"name"`
+	Users     []UserItem `json:"users"`
+	CreatedAt string     `json:"created_at"`
+}
+
 type UserChatsResponse struct {
 	Chats []ChatItem `json:"chats"`
 }
@@ -78,6 +84,16 @@ func (uh *UserHandler) Chats(w http.ResponseWriter, r *http.Request) {
 			Name:      chat.Name,
 			CreatedAt: chat.CreatedAt,
 		}
+
+		for _, user := range chat.Users {
+			userItem := UserItem{
+				ID:        user.ID,
+				Username:  user.Username,
+				CreatedAt: user.CreatedAt,
+			}
+			chatItem.Users = append(chatItem.Users, userItem)
+		}
+
 		response.Chats = append(response.Chats, chatItem)
 	}
 
