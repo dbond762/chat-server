@@ -47,11 +47,11 @@ type ChatMessagesRequset struct {
 }
 
 type MessageItem struct {
-	ID        int64  `json:"id"`
-	Chat      int64  `json:"chat"`
-	Author    int64  `json:"author"`
-	Text      string `json:"text"`
-	CreatedAt string `json:"created_at"`
+	ID        int64    `json:"id"`
+	Chat      int64    `json:"chat"`
+	Author    UserItem `json:"author"`
+	Text      string   `json:"text"`
+	CreatedAt string   `json:"created_at"`
 }
 
 type ChatMessagesResponse struct {
@@ -79,9 +79,13 @@ func (ch *ChatHandler) Messages(w http.ResponseWriter, r *http.Request) {
 	response := new(ChatMessagesResponse)
 	for _, message := range messages {
 		messageItem := MessageItem{
-			ID:        message.ID,
-			Chat:      message.Chat,
-			Author:    message.Author,
+			ID:   message.ID,
+			Chat: message.Chat,
+			Author: UserItem{
+				ID:        message.Author.ID,
+				Username:  message.Author.Username,
+				CreatedAt: message.Author.CreatedAt,
+			},
 			Text:      message.Text,
 			CreatedAt: message.CreatedAt,
 		}

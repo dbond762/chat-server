@@ -33,6 +33,7 @@ func Setup(userHandler *UserHandler, chatHandler *ChatHandler, messageHandler *M
 	r.Post("/chats/get", userHandler.Chats)
 
 	r.Post("/messages/add", messageHandler.Add)
+	r.Post("/messages/get", chatHandler.Messages)
 
 	log.Printf("Server run on http://localhost:%d", port)
 	if err := http.ListenAndServe(fmt.Sprintf(":%d", port), r); err != nil {

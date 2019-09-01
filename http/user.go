@@ -42,12 +42,6 @@ type UserChatsRequest struct {
 	User int64 `json:"user"`
 }
 
-type UserItem struct {
-	ID        int64  `json:"id"`
-	Username  string `json:"username"`
-	CreatedAt string `json:"created_at"`
-}
-
 type ChatItem struct {
 	ID        int64      `json:"id"`
 	Name      string     `json:"name"`

@@ -4,6 +4,7 @@ import (
 	"database/sql"
 
 	server "github.com/dbond762/chat-server"
+	_ "github.com/go-sql-driver/mysql"
 )
 
 type ChatService struct {
@@ -52,7 +53,10 @@ func (cs *ChatService) Add(name string, users []int64) (int64, error) {
 
 func (cs *ChatService) Messages(id int64) ([]server.Message, error) {
 	rows, err := cs.DB.Query(
-		"SELECT `id`, `chat_id`, `author_id`, `text`, `created_at` FROM `message` WHERE `chat_id` = ? ORDER BY `created_at` DESC",
+		"SELECT `message`.`id` AS `id`, `message`.`chat_id`, `user`.`id` AS `author_id`, `user`.`username` AS `author_username`, `user`.`created_at` AS `author_created_at`, `message`.`text` AS `text`, `message`.`created_at` AS `created_at`"+
+			"FROM `message` LEFT JOIN `user` ON `message`.`author_id` = `user`.`id`"+
+			"WHERE `message`.`chat_id` = ? "+
+			"ORDER BY `created_at` DESC",
 		id,
 	)
 	if err != nil {
@@ -62,11 +66,16 @@ func (cs *ChatService) Messages(id int64) ([]server.Message, error) {
 	messages := make([]server.Message, 0)
 
 	for rows.Next() {
-		var m server.Message
-		if err := rows.Scan(&m.ID, &m.Chat, &m.Author, &m.Text, &m.CreatedAt); err != nil {
+		var (
+			m server.Message
+			a server.User
+		)
+
+		if err := rows.Scan(&m.ID, &m.Chat, &a.ID, &a.Username, &a.CreatedAt, &m.Text, &m.CreatedAt); err != nil {
 			return []server.Message{}, err
 		}
 
+		m.Author = &a
 		messages = append(messages, m)
 	}
 	rows.Close()

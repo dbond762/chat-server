@@ -16,7 +16,8 @@ CREATE TABLE `user` (
   `id` INTEGER NOT NULL AUTO_INCREMENT,
   `username` VARCHAR(20) NOT NULL,
   `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  CONSTRAINT `username_unique` UNIQUE (`username`)
 );
 
 -- ---
@@ -30,7 +31,8 @@ CREATE TABLE `chat` (
   `id` INTEGER NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(20) NOT NULL,
   `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  CONSTRAINT `chat_name_unique` UNIQUE (`name`)
 );
 
 -- ---

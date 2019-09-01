@@ -1,6 +1,10 @@
 package mysql
 
-import "database/sql"
+import (
+	"database/sql"
+
+	_ "github.com/go-sql-driver/mysql"
+)
 
 type MessageService struct {
 	DB *sql.DB

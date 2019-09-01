@@ -50,8 +50,10 @@ func (us *UserService) Chats(id int64) ([]server.Chat, error) {
 
 	chatIdx := 0
 	for rows.Next() {
-		var c server.Chat
-		var u server.User
+		var (
+			c server.Chat
+			u server.User
+		)
 
 		if err := rows.Scan(&c.ID, &c.Name, &c.CreatedAt, &u.ID, &u.Username, &u.CreatedAt); err != nil {
 			return []server.Chat{}, err
