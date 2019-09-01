@@ -2,8 +2,8 @@ package server
 
 type Message struct {
 	ID        int64
-	Chat      *Chat
-	Author    *User
+	Chat      int64 //*Chat
+	Author    int64 //*User
 	Text      string
 	CreatedAt string
 }

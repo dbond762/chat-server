@@ -41,3 +41,56 @@ func (ch *ChatHandler) Add(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 }
+
+type ChatMessagesRequset struct {
+	Chat int64 `json:"chat"`
+}
+
+type MessageItem struct {
+	ID        int64  `json:"id"`
+	Chat      int64  `json:"chat"`
+	Author    int64  `json:"author"`
+	Text      string `json:"text"`
+	CreatedAt string `json:"created_at"`
+}
+
+type ChatMessagesResponse struct {
+	Messages []MessageItem `json:"messages"`
+}
+
+func (ch *ChatHandler) Messages(w http.ResponseWriter, r *http.Request) {
+	decoder := json.NewDecoder(r.Body)
+	request := new(ChatMessagesRequset)
+	if err := decoder.Decode(request); err != nil {
+		log.Print(err)
+		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
+		return
+	}
+
+	messages, err := ch.ChatService.Messages(request.Chat)
+	if err != nil {
+		log.Print(err)
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		return
+	}
+
+	encoder := json.NewEncoder(w)
+
+	response := new(ChatMessagesResponse)
+	for _, message := range messages {
+		messageItem := MessageItem{
+			ID:        message.ID,
+			Chat:      message.Chat,
+			Author:    message.Author,
+			Text:      message.Text,
+			CreatedAt: message.CreatedAt,
+		}
+		response.Messages = append(response.Messages, messageItem)
+	}
+
+	if err := encoder.Encode(response); err != nil {
+		log.Print(err)
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		return
+	}
+}
